@@ -1,0 +1,32 @@
+plugins {
+    id 'scala'
+    id 'application'
+}
+
+group "com.example"
+version "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform("ai.djl:bom:0.12.0")
+    implementation "org.apache.spark:spark-sql_2.12:3.0.1"
+    implementation "org.apache.spark:spark-mllib_2.12:3.0.1"
+    implementation "ai.djl:api"
+
+
+    runtimeOnly "ai.djl.tensorflow:tensorflow-model-zoo"
+    runtimeOnly "ai.djl.tensorflow:tensorflow-native-auto"
+}
+
+compileScala {
+    scalaCompileOptions.setAdditionalParameters(["-target:jvm-1.8"])
+}
+
+application {
+    getMainClass().set(System.getProperty("main", "com.examples.MaskClassifications"))
+}
+
+tasks.distTar.enabled = false
